@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://sigap.fazenda.gov.br/Carteira/"
+xmlns="http://www.w3.org/2001/XMLSchema" 
+xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+xmlns:sigap="http://sigap.fazenda.gov.br/Carteira/">
+
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema2.xsd"/>
+
+    <attribute name="multiplos" type="string"></attribute>
+
+    <element name="arquivoEnvioCarteira" type="sigap:carteira"></element>
+
+    <complexType name="carteira">
+    	   <sequence>
+    		<element name="tipoArquivo">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataMovimentoReferencia" type="date"></element>
+    		<element name="numeroLote">
+    			<simpleType>
+    				<restriction base="int">
+    					<maxInclusive value="99999"></maxInclusive>
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>  
+    		
+    		<element name="CNPJ">
+    			<simpleType>
+    				<restriction base="string">
+    					<pattern value="[0-9]{14}"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="marca">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+			<element name="loteFinal">
+				<simpleType>
+    				<restriction base="int">
+    					<enumeration value="0"></enumeration>
+    					<enumeration value="1"></enumeration>
+    				</restriction>
+    			</simpleType>
+			</element>
+    		<element name="dataHoraGeracao" type="dateTime"></element>
+		
+
+    		<element name="carteiras" type="sigap:carteirasSequence"></element>
+			<element name="qtdTotalPremios" type="int" maxOccurs="1"
+    			minOccurs="0"></element>
+    		<element name="valTotalPremios" type="double" maxOccurs="1"
+    			minOccurs="0"></element>
+			<element name="justificativaRetificacao" maxOccurs="1"
+    			minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element ref="ds:Signature"></element>
+    	</sequence>
+    	<attribute name="versao">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="1.0"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="carteirasSequence">
+    	<sequence>
+    		<element name="carteira" type="sigap:carteiraType" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="carteiraType">
+    	<sequence>
+    		<element name="nacionalidade">
+    			<simpleType>
+    				<restriction base="int">
+    					<minInclusive value="1"></minInclusive>
+    					<maxInclusive value="9999"></maxInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="CPF">
+    			<simpleType>
+    				<restriction base="string">
+    					<pattern value="[0-9]{11}"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+
+    		<element name="saldoInicial" type="double"></element>
+    		<element name="qtdAportes" type="int"></element>
+    		<element name="aportes" type="sigap:aportesSequence" minOccurs="0" maxOccurs="1">
+    		</element>
+    		<element name="qtdRetiradas" type="int"></element>
+    		<element name="retiradas" type="sigap:retiradasSequence"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="qtdPremios" type="int"></element>
+    		<element name="premios" type="sigap:premiosSequence"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="indicadorAjuste">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="ajustes" type="sigap:ajustesSequence"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="saldoFinal" type="double"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="aportesSequence">
+    	<sequence>
+    		<element name="aporte" type="sigap:aporteType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="aporteType">
+    	<sequence>
+    		<element name="idAporte">
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="20"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="valorAporte" type="double"></element>
+    		<element name="dataHoraAporte" type="dateTime"></element>
+    		<element name="meioAporte">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    					<enumeration value="5"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="retiradaType">
+    	<sequence>
+    		<element name="idRetirada">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="20"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="valorRetirada" type="double"></element>
+    		<element name="dataHoraRetirada" type="dateTime"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="retiradasSequence">
+    	<sequence>
+    		<element name="retirada" type="sigap:retiradaType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="premiosSequence">
+    	<sequence>
+    		<element name="premio" type="sigap:premioType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="premioType">
+    	<sequence>
+    		<element name="idPremio">
+				<complexType>
+					<simpleContent>
+						<extension base="sigap:idPremioBaseType">
+							<attribute name="tipo" type="sigap:tipoJogoType" use="required" />
+						</extension>
+					</simpleContent>
+				</complexType>
+			</element>
+    		<element name="idAposta" maxOccurs="1" minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="20"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="idSessao" maxOccurs="1" minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="20"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="valorPremio" type="double"></element>
+    		<element name="dataHoraPagamentoPremio" type="dateTime"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="apostasSequence">
+    	<sequence>
+    		<element name="aposta" type="sigap:apostaType" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="apostaType">
+    	<sequence>
+    		<element name="idAposta">
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="20"></maxLength>
+    					<minLength value="1"></minLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="valorAposta" type="double"></element>
+    		<element name="dataHoraAposta" type="dateTime"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ajustesSequence">
+    	<sequence>
+    		<element name="ajuste" type="sigap:ajusteType" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ajusteType">
+    	<sequence>
+    		<element name="idAjuste">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="10"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="tipoTransacao">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraAjuste" type="dateTime"></element>
+    		<element name="valorAjuste" type="double"></element>
+    		<element name="motivoAjuste">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    	</sequence>
+    </complexType>
+	
+	<simpleType name="idPremioBaseType">
+		<restriction base="string">
+			<minLength value="1"></minLength>
+			<maxLength value="20"></maxLength>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="tipoJogoType">
+		<restriction base="string">
+			<enumeration value="1"></enumeration>
+			<enumeration value="2"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://sigap.fazenda.gov.br/Operador/"
+xmlns="http://www.w3.org/2001/XMLSchema" 
+xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+xmlns:sigap="http://sigap.fazenda.gov.br/Operador/">
+
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema2.xsd"/>
+
+    <element name="arquivoEnvioOperadorMensal"
+    	type="sigap:operador"/>
+
+    
+    
+    <complexType name="operador">
+    	<sequence>
+    		<element name="tipoArquivo">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataMovimentoReferencia" type="date"></element>
+    		<element name="numeroLote">
+    			<simpleType>
+    				<restriction base="int">
+    					<maxInclusive value="99999"></maxInclusive>
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="CNPJ">
+    			<simpleType>
+    				<restriction base="string">
+    					<pattern value="[0-9]{14}"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraGeracao" type="dateTime"></element>
+
+    		<element name="valSegSocialRecolhido" type="double"></element>
+    		<element name="valDestEducacao" type="double"></element>
+    		<element name="detValEducacao"
+    			type="sigap:detValEducacaoType">
+    		</element>
+
+    		<element name="valDestSegPublica" type="double"></element>
+    		<element name="detValSegPublica"
+    			type="sigap:detValSegSequence">
+    		</element>
+    		<element name="valDestEsporte" type="double"></element>
+    		<element name="detValDestEsporte"
+    			type="sigap:detValDestEsporteType">
+    		</element>
+    		<element name="valDestTurismo" type="double"></element>
+    		<element name="detValDestTurismo"
+    			type="sigap:detValDestTurismoSequence">
+    		</element>
+    		<element name="valDestSaude" type="double"></element>
+    		<element name="valDestFenapaes" type="double"></element>
+    		<element name="valDestFenapestalozzi" type="double"></element>
+    		<element name="valDestCruzVermBrasil" type="double"></element>
+    		<element name="valDestFunapol" type="double"></element>
+    		<element name="valDestABDI" type="double"></element>
+    		<element name="valFIESGanPresc" type="double"></element>
+    		<element name="ggrTotal" type="double"></element>
+
+    		<element name="taxaFiscRecolhida" type="double"></element>
+    		<element name="mediaAcessoDiario">
+    			<simpleType>
+    				<restriction base="double">
+    					<minExclusive value="0"></minExclusive>
+    					<maxExclusive value="24"></maxExclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="justificativaRetificacao" maxOccurs="1"
+    			minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+
+    		<element ref="ds:Signature"></element>
+    	</sequence>
+    	<attribute name="versao">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="1.0"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+
+
+    <complexType name="detValSegSequence">
+    	<sequence>
+    		<element name="valDestFNSP" type="double"></element>
+    		<element name="valDestSisfron" type="double"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="detValEducacaoType">
+    	<sequence>
+    		<element name="valDestEscBasica" type="double"></element>
+    		<element name="ValDestEscTecnica" type="double"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="detValDestEsporteType">
+    	<sequence>
+    		<element name="valDestSinespAtletas" type="double"></element>
+    		<element name="valDestCOB" type="double"></element>
+    		<element name="valDestCPB" type="double"></element>
+    		<element name="valDestCBC" type="double"></element>
+    		<element name="valDestCBDE" type="double"></element>
+    		<element name="valDestCBDU" type="double"></element>
+    		<element name="valDestCBCP" type="double"></element>
+    		<element name="valDestMinEsporte" type="double"></element>
+    		<element name="valDestSecEsporte" type="double"></element>
+    		<element name="valDestCBEM" type="double"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="detValDestTurismoSequence">
+    	<sequence>
+    		<element name="valDestEmbratur" type="double"></element>
+    		<element name="valDestMinTurismo" type="double"></element>
+    	</sequence>
+    </complexType>
+
+
+    <element name="arquivoEnvioOperadorDiario"
+    	type="sigap:operadorDiario">
+    </element>
+    
+    <complexType name="operadorDiario">
+    <sequence>
+    	<element name="tipoArquivo">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="1"></enumeration>
+    				<enumeration value="2"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</element>
+    	<element name="dataMovimentoReferencia" type="date"></element>
+    	<element name="numeroLote">
+    		<simpleType>
+    			<restriction base="int">
+    				<maxInclusive value="99999"></maxInclusive>
+    				<minInclusive value="1"></minInclusive>
+    			</restriction>
+    		</simpleType>
+    	</element>
+    	<element name="CNPJ">
+    		<simpleType>
+    			<restriction base="string">
+    				<pattern value="[0-9]{14}"></pattern>
+    			</restriction>
+    		</simpleType>
+    	</element>
+    	<element name="dataHoraGeracao" type="dateTime"></element>
+
+    	<element name="saldoTotContTrans" type="double"></element>
+		<element name="saldoFinTotalDisp" type="double"></element>
+		<element name="valorTotalApostasCurso" type="double"></element>
+
+    	<element name="justificativaRetificacao" minOccurs="0" maxOccurs="1">
+    		<simpleType>
+    			<restriction base="string">
+    				<maxLength value="100"></maxLength>
+    			</restriction>
+    		</simpleType>
+    	</element>
+    	<element ref="ds:Signature"></element>
+    </sequence>
+    <attribute name="versao">
+   		<simpleType>
+   			<restriction base="string">
+   				<enumeration value="1.0"></enumeration>
+   			</restriction>
+   		</simpleType>
+   	</attribute>
+    </complexType>
+</schema>

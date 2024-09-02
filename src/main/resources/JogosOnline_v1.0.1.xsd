@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://sigap.fazenda.gov.br/JogoOnline/"
+xmlns="http://www.w3.org/2001/XMLSchema" 
+xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+xmlns:sigap="http://sigap.fazenda.gov.br/JogoOnline/">
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema2.xsd"/>
+
+    <element name="arquivoEnvioJogoOnline" type="sigap:envioJogoOnlineType"></element>
+
+    <complexType name="envioJogoOnlineType">
+    	<sequence>
+    		<element name="tipoArquivo">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataMovimentoReferencia" type="date"></element>
+    		<element name="numeroLote">
+    			<simpleType>
+    				<restriction base="int">
+    					<maxInclusive value="99999"></maxInclusive>
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>  
+    		
+    		<element name="CNPJ">
+    			<simpleType>
+    				<restriction base="string">
+    					<pattern value="[0-9]{14}"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="marca">
+    			<simpleType>
+    				<restriction base="string">
+						<minLength value="1"></minLength>
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+			<element name="loteFinal">
+				<simpleType>
+    				<restriction base="int">
+    					<enumeration value="0"></enumeration>
+    					<enumeration value="1"></enumeration>
+    				</restriction>
+    			</simpleType>
+			</element>
+    		<element name="dataHoraGeracao" type="dateTime"></element>
+            
+            <element name="apostas" type="sigap:apostaSequence"></element>
+
+			<element name="qtdTotalApostadoDia" minOccurs="0" maxOccurs="1">
+				<simpleType>
+    				<restriction base="long">
+						<minInclusive value="1"></minInclusive>
+    					<maxInclusive value="9999999999"></maxInclusive>
+    				</restriction>
+    			</simpleType>
+			</element>
+
+			<element name="valTotalApostadoDia" type="double" minOccurs="0" maxOccurs="1"></element>
+
+    		<element name="justificativaRetificacao" maxOccurs="1" minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+						<minLength value="1"></minLength>
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element ref="ds:Signature"></element>
+    	</sequence>
+    	<attribute name="versao">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="1.0"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+	<complexType name="apostaType">
+		<sequence>
+            <element name="CPF">
+                <simpleType>
+                    <restriction base="string">
+                        <pattern value="[0-9]{11}"></pattern>
+                    </restriction>
+                </simpleType>
+            </element>
+
+			<element name="qtdApostasJogoDia">
+				<simpleType>
+    				<restriction base="int">
+						<minInclusive value="1"></minInclusive>
+    					<maxInclusive value="999999"></maxInclusive>
+    				</restriction>
+    			</simpleType>
+			</element>
+
+			<element name="jogosOnline">
+				<complexType>
+					<sequence>
+						<element name="jogoOnline" type="sigap:jogoOnlineType" minOccurs="1" maxOccurs="7" ></element>
+					</sequence>
+				</complexType>
+				<unique name="TipoUnico">
+					<selector xpath="jogoOnline"/>
+					<field xpath="@tipo"/>
+				</unique>
+			</element>
+
+			<element name="tempoTotalApostadorJogoDia">
+				<simpleType>
+					<restriction base="string">
+						<pattern value="([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])"/>
+					</restriction>
+				</simpleType>
+			</element>
+
+			<element name="valorTotalApostadorJogoDia" type="double"></element>
+			<element name="ganhoApostadorJogoDia" type="double"></element>
+			<element name="perdaApostadorJogoDia" type="double"></element>
+
+		</sequence>
+	</complexType>
+
+	<complexType name="jogoOnlineType">
+		<sequence>
+			<element name="qtdApostasTipoJogo">
+				<simpleType>
+					<restriction base="int">
+						<minInclusive value="1"></minInclusive>
+						<maxInclusive value="999999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+
+			<element name="tituloJogo">
+				<simpleType>
+					<restriction base="string">
+						<minLength value="1"></minLength>
+						<maxLength value="100"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+
+			<element name="qtdPremiosSessaoJogo">
+				<simpleType>
+					<restriction base="int">
+						<minInclusive value="0"></minInclusive>
+						<maxInclusive value="9999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+
+			<element name="sessoesPremiadas" type="sigap:sessaoSequence"></element>
+
+			<element name="tempoTotalApostasJogo" type="time"></element>
+
+			<element name="valorTotalApostasJogo" type="double"></element>
+			<element name="ganhoApostasJogo" type="double"></element>
+			<element name="perdaApostasJogo" type="double"></element>
+		</sequence>
+		<attribute name="tipo" type="sigap:tipoJogoType" use="required" />
+	</complexType>
+
+	<complexType name="apostaSequence">
+    	<sequence>
+    		<element name="aposta" type="sigap:apostaType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+	<complexType name="sessaoSequence">
+    	<sequence>
+    		<element name="idSessao" maxOccurs="unbounded" minOccurs="0">
+				<simpleType>
+					<restriction base="string">
+						<minLength value="1"></minLength>
+						<maxLength value="20"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+    	</sequence>
+    </complexType>
+
+	<simpleType name="tipoJogoType">
+				<restriction base="string">
+					<enumeration value="1"></enumeration>
+					<enumeration value="2"></enumeration>
+					<enumeration value="3"></enumeration>
+					<enumeration value="4"></enumeration>
+					<enumeration value="5"></enumeration>
+					<enumeration value="6"></enumeration>
+					<enumeration value="7"></enumeration>
+				</restriction>
+	</simpleType>
+
+</schema>

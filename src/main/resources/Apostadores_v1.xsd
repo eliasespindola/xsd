@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://sigap.fazenda.gov.br/Apostadores/"
+xmlns="http://www.w3.org/2001/XMLSchema" 
+xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+xmlns:sigap="http://sigap.fazenda.gov.br/Apostadores/">
+	<import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema2.xsd"/>
+
+    <element name="arquivoEnvioApostador" type="sigap:envioApostadoresType"></element>
+
+    <complexType name="envioApostadoresType">
+    	<sequence>
+    		<element name="tipoArquivo">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataMovimentoReferencia" type="date"></element>
+    		<element name="numeroLote">
+    			<simpleType>
+    				<restriction base="int">
+    					<maxInclusive value="99999"></maxInclusive>
+    					<minInclusive value="1"></minInclusive>
+    				</restriction>
+    			</simpleType>
+    		</element>  
+    		
+    		<element name="CNPJ">
+    			<simpleType>
+    				<restriction base="string">
+    					<pattern value="[0-9]{14}"></pattern>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="marca">
+    			<simpleType>
+    				<restriction base="string">
+						<minLength value="1"></minLength>
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+			<element name="loteFinal">
+				<simpleType>
+    				<restriction base="int">
+    					<enumeration value="0"></enumeration>
+    					<enumeration value="1"></enumeration>
+    				</restriction>
+    			</simpleType>
+			</element>
+    		<element name="dataHoraGeracao" type="dateTime"></element>
+
+    		<element name="apostadores"
+    			type="sigap:apostadoresSequence">
+    		</element>
+			<element name="qtdTotalApostadores" maxOccurs="1" minOccurs="0">
+				<simpleType>
+					<restriction base="long">
+						<maxInclusive value="9999999999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="totalContasSuspensas" maxOccurs="1" minOccurs="0">
+				<simpleType>
+					<restriction base="long">
+						<maxInclusive value="9999999999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="totalContasCanceladas" maxOccurs="1" minOccurs="0">
+				<simpleType>
+					<restriction base="long">
+						<maxInclusive value="9999999999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="totalApostadoresAutoExcluidos" maxOccurs="1" minOccurs="0">
+				<simpleType>
+					<restriction base="long">
+						<maxInclusive value="9999999999"></maxInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+    		<element name="justificativaRetificacao" maxOccurs="1"
+    			minOccurs="0">
+    			<simpleType>
+    				<restriction base="string">
+    					<maxLength value="100"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element ref="ds:Signature"></element>
+    	</sequence>
+    	<attribute name="versao">
+    		<simpleType>
+    			<restriction base="string">
+    				<enumeration value="1.0"></enumeration>
+    			</restriction>
+    		</simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="apostadoresSequence">
+    	<sequence>
+    		<element name="apostador" type="sigap:apostadorType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="apostadorType">
+    	<sequence>
+    		<element name="nomeApostador">
+    			<simpleType>
+    				<restriction base="string">
+    					<minLength value="1"></minLength>
+    					<maxLength value="60"></maxLength>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<choice>
+    			<element name="CPF">
+    				<simpleType>
+    					<restriction base="string">
+    						<pattern value="[0-9]{11}"></pattern>
+    					</restriction>
+    				</simpleType>
+    			</element>
+    		</choice>
+    		<element name="dataNascimento" type="date"></element>
+    		<element name="dataHoraCriacaoConta" type="dateTime"></element>
+    		<element name="dataHoraAceitacaoTC" type="dateTime"></element>
+    		<element name="statusApostador">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    					<enumeration value="5"></enumeration>
+    					<enumeration value="6"></enumeration>
+    					<enumeration value="7"></enumeration>
+    					<enumeration value="8"></enumeration>
+    					<enumeration value="9"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraStatus" type="dateTime"></element>
+    		<element name="genero">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="periodoPausa">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="0"></enumeration>
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    					<enumeration value="5"></enumeration>
+    					<enumeration value="6"></enumeration>
+    					<enumeration value="7"></enumeration>
+    					<enumeration value="8"></enumeration>
+    					<enumeration value="9"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraPeriodoPausa" type="dateTime" maxOccurs="1" minOccurs="0"></element>
+    		<element name="periodoExclusao">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="00"></enumeration>
+    					<enumeration value="03"></enumeration>
+    					<enumeration value="06"></enumeration>
+    					<enumeration value="12"></enumeration>
+    					<enumeration value="24"></enumeration>
+    					<enumeration value="36"></enumeration>
+    					<enumeration value="48"></enumeration>
+						<enumeration value="60"></enumeration>
+    					<enumeration value="99"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraPeriodoExclusao" type="dateTime" maxOccurs="1" minOccurs="0"></element>
+    		<element name="periodoExclusaoJudicial">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="0"></enumeration>
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="6"></enumeration>
+    					<enumeration value="12"></enumeration>
+    					<enumeration value="60"></enumeration>
+    					<enumeration value="99"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataHoraPeriodoExclusaoJudicial"
+    			type="dateTime" maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="limites" type="sigap:limitesType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="alteracaoDados">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="limitesType">
+    	<sequence>
+            <element name="limiteAporte" maxOccurs="3" minOccurs="0">
+    			<complexType>
+    				<simpleContent>
+    					<extension base="decimal">
+    						<attribute name="tipo"
+    							type="sigap:periodoType" use="required" />
+    					</extension>
+    				</simpleContent>
+    			</complexType>
+    		</element>
+    		<element name="limiteGasto" maxOccurs="3" minOccurs="0">
+    			<complexType>
+    				<simpleContent>
+    					<extension base="decimal">
+    						<attribute name="tipo"
+    							type="sigap:periodoType" use="required" />
+    					</extension>
+    				</simpleContent>
+    			</complexType>
+    		</element>
+    		<element name="limiteTempo" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<simpleContent>
+    					<extension base="duration">
+      						<attribute name="tipo" type="sigap:periodoType" use="required"/>
+    					</extension>
+    				</simpleContent>
+    			</complexType>
+    		</element>
+    		<element name="limitePerda" maxOccurs="3" minOccurs="0">
+    			<complexType>
+    				<simpleContent>
+    					<extension base="double">
+    						<attribute name="tipo"
+    							type="sigap:periodoType" use="required" />
+    					</extension>
+    				</simpleContent>
+    			</complexType>
+    		</element>
+    	</sequence>
+
+    </complexType>
+
+    <simpleType name="periodoType">
+    	<restriction base="string">
+    		<enumeration value="1"></enumeration>
+    		<enumeration value="2"></enumeration>
+    		<enumeration value="3"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="totalApostadoresStatusType">
+    	<sequence>
+    		<element name="ativo" type="int"></element>
+    		<element name="cancelado" type="int"></element>
+    		<element name="suspenso" type="int"></element>
+    		<element name="autoExcluido" type="int"></element>
+    		<element name="pendenteVerificacao" type="int"></element>
+    		<element name="suspensoPreventivamente" type="int"></element>
+    		<element name="excluidoJuridicamente" type="int"></element>
+    		<element name="cadastroPendenteAtualValAnual" type="int"></element>
+    		<element name="Outro" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="verificacaoIdentidadeType">
+    	<sequence>
+    		<element name="verificada" type="int"></element>
+    		<element name="verificacoes" type="sigap:verificacoesSequence" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="verificacoesSequence">
+    	<sequence>
+    		<element name="tipo">
+    			<simpleType>
+    				<restriction base="int">
+    					<enumeration value="1"></enumeration>
+    					<enumeration value="2"></enumeration>
+    					<enumeration value="3"></enumeration>
+    					<enumeration value="4"></enumeration>
+    					<enumeration value="5"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="dataVerificacao" type="date"></element>
+    	</sequence>
+    </complexType>
+</schema>
