@@ -12,7 +12,7 @@ Este projeto em Java 11 foi desenvolvido com o objetivo de transformar esquemas 
   - E ali vão estar as classes java geradas a partir do .xsd
 
 ## Como faço para gerar um .xsd diferente?
--
+- No arquivo pom.xml temos o parametro ```<xsd>${project.basedir}/src/main/resources/JogosOnline_v1.0.1.xsd</xsd>``` neste caso está gerando apenas para o JogosOnline caso queria gerar as classes a partir de outro .xsd é só fazer a modificação.
 
 ## Links
 - https://medium.com/@ankithahjpgowda/convert-xsd-files-to-java-classes-ee1834350549
